@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="src/output.css" />
+  </head>
+  <body>
+    <div class="h-screen w-full overflow-hidden relative">
+      <!-- Background Image -->
+      <img
+        class="absolute top-0 left-0 w-full h-full object-cover z-0"
+        src="./src/photos/digital-art-isolated-house.jpg"
+        alt=""
+      />
+
+      <!-- Content Box -->
+      <div
+        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 justify-center items-center gap-4  bg-white/20  p-8 rounded-xl"
+      >
+        <input
+          class="border border-slate-400 h-10 w-64 text-center rounded-xl "
+          type="text"
+          placeholder="Enter your location"
+          id="place"
+        />
+
+        <button
+          class="text-black w-16 h-10 bg-red-300 border rounded-lg text-center bg-gradient-to-tr from-sky-500 to-indigo-500"
+          id="search-button"
+        >
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+        <!-- Weather Icon -->
+        <img id="icon" class="mx-auto my-4" />
+
+        <!-- Weather Info -->
+        <p id="para" class="text-center text-lg font-medium"></p>
+      </div>
+    </div>
+<footer>
+  <div class="text-xl bg-black text-center  text-white">Pradeep tanwar | Fineworks technologies</div>
+</footer>
+    <script>
+      const api_key = "e4cca017ad9254f1fa6baca1b12f9a40";
+
+      const getweather = async () => {
+        const place = document.querySelector("#place").value;
+        const URL = `https://api.openweathermap.org/data/2.5/weather?q=${place}&appid=${api_key}&units=metric`;
+        
+        let response = await fetch(URL);
+        let data = await response.json();
+        let para = document.querySelector("#para");
+        let icon = document.querySelector("#icon");
+
+        if (data.cod == 200) {
+          para.innerText = `🌡 Temperature in ${data.name}: ${data.main.temp}°C\n🌬 Wind: ${data.wind.speed} km/h\n💧 Humidity: ${data.main.humidity}%\n🌥 Condition: ${data.weather[0].description}\n🕒 Time: ${new Date().toLocaleTimeString()}`;
+
+          // Set icon based on weather type
+          const weather = data.weather[0].main;
+          if (weather === "Clear") {
+            icon.src = "./src/photos/clear.png";
+          } else if (weather === "Clouds") {
+            icon.src = "./src/photos/cloudy.png";
+          } else if (weather === "Rain") {
+            icon.src = "./src/photos/rainy.jpeg";
+          } else if (weather === "Snow") {
+            icon.src = "./src/photos/snow.png";
+          } else if (weather === "Haze" || weather === "Mist") {
+            icon.src = "./src/photos/mist.png";
+          } else if(weather=="Drizzle"){
+            icon.src = "./src/photos/Drizzle.png"; // fallback icon
+          }
+        } else {
+          para.innerText = `${data.message}`;
+          icon.src = ""; // Clear icon on error
+        }
+      };
+
+      document.querySelector("#search-button").addEventListener("click", getweather);
+    </script>
+  </body>
+</html>
