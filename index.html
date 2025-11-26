@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -57,7 +58,7 @@
         let icon = document.querySelector("#icon");
 
         if (data.cod == 200) {
-          para.innerText = `🌡 Temperature in ${data.name}: ${data.main.temp}°C\n🌬 Wind: ${data.wind.speed} km/h\n💧 Humidity: ${data.main.humidity}%\n🌥 Condition: ${data.weather[0].description}\n🕒 Time: ${new Date().toLocaleTimeString()}`;
+          para.innerText = `🌡 Temperature in ${data.name}: ${data.main.temp}°C\n🌬 Wind: ${data.wind.speed} km/h\n💧   Condition: ${data.weather[0].description}\n🕒 Time: ${new Date().toLocaleTimeString()}`;
 
           // Set icon based on weather type
           const weather = data.weather[0].main;
